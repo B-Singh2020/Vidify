@@ -1,8 +1,30 @@
-﻿@model Vidify.Models.Movie
+﻿@model Vidify.ViewModels.RandomMovieViewModel
 @{
     ViewBag.Title = "Random";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Name</h2>
+@{ 
+    var className = Model.Customers.Count > 5 ? "Popular" : null;
+}
+<h2 class = "@className">@Model.Movie.Name</h2>
+@**
+If else statement prints out all cust for movie
+*@
+
+    @if (Model.Customers.Count == 0)
+    {
+        <template>
+            No one has rented this before!
+        </template>
+    }
+    else
+    {
+     <ul>
+        @foreach (var customer in Model.Customers)
+        {
+            <li>@customer.Name </li>
+        }
+    </ul>
+    }
 

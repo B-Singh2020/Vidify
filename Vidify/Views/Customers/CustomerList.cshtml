@@ -1,0 +1,25 @@
+﻿@model Vidify.ViewModels.CustomersListViewModel
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2></h2>
+
+
+@if (Model.Customers.Count == 0)
+{
+    <template>
+        There are no customers.
+    </template>
+}
+else
+{
+    <ul>
+        @foreach (var customer in Model.Customers)
+        {
+            <li>@customer.Name </li>
+        }
+    </ul>
+}
