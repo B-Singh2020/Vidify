@@ -10,27 +10,38 @@ namespace Vidify.Controllers
 {
     public class CustomersController : Controller
     {
-        
+
         public ActionResult CustomerList()
         {
-            var customers = new List<Customer>   //create list of cust obj
-            {
-                new Customer{ Name = "Bob"},
-                new Customer {Name = "Rob"},
-                new Customer{ Name = "Hob"},
-                new Customer {Name = "Terry"},
-                new Customer{ Name = "Berry"},
-                new Customer {Name = "Cherry"}
-            };
-                        //customer view model
+            var customers = GetCustomers();   //create list of cust obj
 
-            
-
-            var viewMod = new CustomersListViewModel
-            {
-                Customers = customers
-            };
-            return View(viewMod);
+            return View(customers);
         }
+
+        public ActionResult Details(int Id)
+        {
+
+            var customer = GetCustomers().SingleOrDefault(c => c.Id == Id);
+
+            if (customer == null)
+                return HttpNotFound();
+
+            return View(customer);
+        }
+
+        private IEnumerable<Customer> GetCustomers()
+        {
+            return new List<Customer>
+            {
+                new Customer{ Name = "Bob", Id  = 1},
+                new Customer {Name = "Rob", Id  = 2},
+                new Customer{ Name = "Hob", Id  = 3},
+                new Customer {Name = "Terry", Id  = 4},
+                new Customer{ Name = "Berry", Id  = 5 },
+                new Customer {Name = "Cherry", Id = 6 }
+            };
+        }
+
     }
 }
+  

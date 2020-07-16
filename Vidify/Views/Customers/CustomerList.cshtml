@@ -1,5 +1,6 @@
-﻿@model Vidify.ViewModels.CustomersListViewModel
-@{
+﻿@model IEnumerable<Vidify.Models.Customer>
+
+@{ 
     ViewBag.Title = "Customers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,18 +9,28 @@
 <h2></h2>
 
 
-@if (Model.Customers.Count == 0)
+@if (!Model.Any())
 {
     <template>
         There are no customers.
     </template>
-}
-else
-{
-    <ul>
-        @foreach (var customer in Model.Customers)
-        {
-            <li>@customer.Name </li>
         }
-    </ul>
+        else
+        {
+    <table id="customers" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Customer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+            <tr>
+                <td>@Html.ActionLink(customer.Name, "Details", "Customers", new { id = customer.Id }, null)</td> 
+            </tr>
+            }
+        </tbody>
+    </table>
+
 }
