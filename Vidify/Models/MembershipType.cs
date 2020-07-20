@@ -8,6 +8,7 @@ namespace Vidify.Models
     public class MembershipType
     {
         public byte Id { get; set; }           //key is byte bc only 3 types of memberships 
+        public String Name { get; set; }
         public short SignUpFee { get; set; }
         public byte DurationInMonths { get; set; }
         public byte DiscountRate { get; set; }
