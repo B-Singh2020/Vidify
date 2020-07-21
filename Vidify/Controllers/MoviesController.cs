@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,70 +11,83 @@ namespace Vidify.Controllers
 {
     public class MoviesController : Controller
     {
+        public ApplicationDbContext _context { get; set; }
+
+        public MoviesController()  //creates dbcontext
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)  //disposes dbcontext
+        {
+            _context.Dispose();
+        }
+
         public ViewResult Index()  // returns movies list
         {
-            var movies = GetMovies();
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
 
             return View(movies);
         }
 
-        private IEnumerable<Movie> GetMovies()  // list of movies 
+        public ActionResult Details(int id)  //returns view of movies or not found
         {
-            return new List<Movie>
-            {
-                new Movie { Id = 1, Name = "Shrek" },
-                new Movie { Id = 2, Name = "Wall-e" }
-            };
+            var movie = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
+
+            if (movie == null)
+                return HttpNotFound();
+
+            return View(movie);
         }
-        // GET: Movies/Random , this action will get random movie
-       /* public ActionResult Random()
-        {
-            var movie = new Movie() { Name = "Puss in Boots"};
-            var customers = new List<Customer>   //create list of cust obj
-            {
-                new Customer{ Name = "cust 1"},
-                new Customer {Name = "cust 2"},
-                new Customer{ Name = "cust 3"},
-                new Customer {Name = "cust 4"},
-                new Customer{ Name = "cust 5"},
-                new Customer {Name = "cust 6"}
-            };
+                                           // GET: Movies/Random , this action will get random movie
+                                           /* public ActionResult Random()
+                                            {
+                                                var movie = new Movie() { Name = "Puss in Boots"};
+                                                var customers = new List<Customer>   //create list of cust obj
+                                                {
+                                                    new Customer{ Name = "cust 1"},
+                                                    new Customer {Name = "cust 2"},
+                                                    new Customer{ Name = "cust 3"},
+                                                    new Customer {Name = "cust 4"},
+                                                    new Customer{ Name = "cust 5"},
+                                                    new Customer {Name = "cust 6"}
+                                                };
 
-            var viewMod = new RandomMovieViewModel   //create viewmodel and assign movie and list
-            {
-                Movie = movie,
-                Customers = customers
+                                                var viewMod = new RandomMovieViewModel   //create viewmodel and assign movie and list
+                                                {
+                                                    Movie = movie,
+                                                    Customers = customers
 
-            };
+                                                };
 
-            return View(viewMod);                            //return corresponding view created for method pass viewmodel
-        }
+                                                return View(viewMod);                            //return corresponding view created for method pass viewmodel
+                                            }
 
-        public ActionResult Edit(int Id)  // Action used to test url and query string input
-        {
-            return Content("Id =" + Id);  //returns string id 
-        }
+                                            public ActionResult Edit(int Id)  // Action used to test url and query string input
+                                            {
+                                                return Content("Id =" + Id);  //returns string id 
+                                            }
 
-        // page to display all movies in database (learning about optional parameters)
-        // add '?' to int to make it nullable and string is already
-        public ActionResult Index(int? pageIndex, String sortBy)
-        {
-            if (!pageIndex.HasValue)
-                pageIndex = 1;
+                                            // page to display all movies in database (learning about optional parameters)
+                                            // add '?' to int to make it nullable and string is already
+                                            public ActionResult Index(int? pageIndex, String sortBy)
+                                            {
+                                                if (!pageIndex.HasValue)
+                                                    pageIndex = 1;
 
-            if (String.IsNullOrWhiteSpace(sortBy))
-                sortBy = "Name";
+                                                if (String.IsNullOrWhiteSpace(sortBy))
+                                                    sortBy = "Name";
 
-            return Content(String.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
-                    }
+                                                return Content(String.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
+                                                        }
 
-        [Route("Movies/Released/{year:regex(\\d{4})}/{month:regex(\\d{2}):range(1, 12)}")]
-        public ActionResult ByReleaseDate(int year, int month)
-        {
-            return Content(year + "/" + month);
-        }
-        */
-        
+                                            [Route("Movies/Released/{year:regex(\\d{4})}/{month:regex(\\d{2}):range(1, 12)}")]
+                                            public ActionResult ByReleaseDate(int year, int month)
+                                            {
+                                                return Content(year + "/" + month);
+                                            }
+                                            */
+
 
     }
 
