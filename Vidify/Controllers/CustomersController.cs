@@ -22,7 +22,38 @@ namespace Vidify.Controllers
             _context.Dispose();
         }
 
-        public ActionResult CustomerList()
+        public ActionResult New()
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+
+            var viewModel = new CustomerFormViewModel
+            {
+                MembershipTypes = membershipTypes
+        };
+
+            return View("CustomerForm", viewModel);
+        }
+        [HttpPost]                       //any data input should only be allowed from httppost
+        public ActionResult Save(Customer customer)
+        {
+            if(customer.Id == 0)
+            _context.Customers.Add(customer);
+
+            else
+            {
+                var customerInDB = _context.Customers.Single(c => c.Id == customer.Id);
+
+                customerInDB.Name = customer.Name;
+                customerInDB.Birthdate = customer.Birthdate;
+                customerInDB.MembershipTypeId = customer.MembershipTypeId;
+                customerInDB.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+            }
+                       
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Customers");
+        }
+
+        public ActionResult Index()
         {
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();   //gets lost of cust from db 
 
@@ -40,6 +71,21 @@ namespace Vidify.Controllers
             return View(customer);
         }
 
+        public ActionResult Edit(int Id)
+        {
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == Id);
+
+            if (customer == null)
+                return HttpNotFound();
+
+            var viewModel = new CustomerFormViewModel
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+
+            return View("CustomerForm", viewModel);
+        }
        
 
     }
