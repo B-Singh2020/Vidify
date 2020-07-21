@@ -15,6 +15,7 @@ namespace Vidify.Models
         public bool IsSubscribedToNewsletter { get; set; }  // usful for loading related types together from DB
         public MembershipType MembershipType { get; set; }   //navigation prop allows navigate from one type to another
         public byte MembershipTypeId { get; set; }       //foreign for optimization
+        public DateTime? Birthdate { get; set; }
     }                                                  
     
 }
