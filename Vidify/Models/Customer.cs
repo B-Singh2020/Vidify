@@ -17,6 +17,7 @@ namespace Vidify.Models
         [Display(Name = "Membership Type")]
         public byte MembershipTypeId { get; set; }       //foreign for optimization
         [Display(Name = "Date of Birth")]
+        [Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
     }                                                  
     
