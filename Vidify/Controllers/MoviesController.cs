@@ -25,9 +25,7 @@ namespace Vidify.Controllers
 
         public ViewResult Index()  // returns movies list
         {
-            var movies = _context.Movies.Include(m => m.Genre).ToList();
-
-            return View(movies);
+            return View();
         }
 
         public ActionResult New()
