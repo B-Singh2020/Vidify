@@ -15,6 +15,7 @@ namespace Vidify.Dtos
         public string Name { get; set; }
         public bool IsSubscribedToNewsletter { get; set; }  // usful for loading related types together from DB
         public byte MembershipTypeId { get; set; }       //foreign for optimization
+        public MembershipTypeDto MembershipType { get; set; }
         //[Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
     }

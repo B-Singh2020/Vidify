@@ -67,9 +67,9 @@ namespace Vidify.Controllers
 
         public ActionResult Index()
         {
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();   //gets lost of cust from db 
+            //var customers = _context.Customers.Include(c => c.MembershipType).ToList();   //gets lost of cust from db 
 
-            return View(customers);
+            return View();
         }
 
         public ActionResult Details(int Id)
