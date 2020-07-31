@@ -25,9 +25,12 @@ namespace Vidify.Controllers
 
         public ViewResult Index()  // returns movies list
         {
-            return View();
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View("List");
+            
+                return View("ReadOnlyList");
         }
-
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult New()
         {
             var genres = _context.Genres.ToList();

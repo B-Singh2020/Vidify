@@ -54,9 +54,9 @@ namespace Vidify
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "308802267197998",
+               appSecret: "2a18f1425d00b62916b1a55e2f60942c");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
