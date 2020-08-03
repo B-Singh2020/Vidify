@@ -6,7 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Vidify.Models;
-
+using System.Configuration;
 namespace Vidify
 {
     public partial class Startup
@@ -55,8 +55,8 @@ namespace Vidify
             //   consumerSecret: "");
 
             app.UseFacebookAuthentication(
-               appId: "308802267197998",
-               appSecret: "2a18f1425d00b62916b1a55e2f60942c");
+               appId: ConfigurationManager.AppSettings["FacebookAppId"],
+               appSecret: ConfigurationManager.AppSettings["FacebookAppSecret"]);
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
