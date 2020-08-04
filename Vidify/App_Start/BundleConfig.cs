@@ -28,6 +28,7 @@ namespace Vidify
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lumen.css",
+                      "~/Content/bootstrap-theme1.css",
                       "~/content/datatables/css/datatables.bootstrap.css",
                       "~/content/typeahead.css",
                       "~/content/toastr.css",
